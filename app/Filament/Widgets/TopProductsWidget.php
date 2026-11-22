@@ -23,15 +23,19 @@ class TopProductsWidget extends TableWidget
         return $table
             ->query(
                 OrderItem::query()
-                    ->select(
-                        DB::raw('MIN(id) as id'),
-                        'product_name',
-                        DB::raw('SUM(quantity) as total_sold'),
-                        DB::raw('SUM(price * quantity) as total_revenue')
+                    ->fromSub(
+                        OrderItem::query()
+                            ->select(
+                                DB::raw('MIN(id) as id'),
+                                'product_name',
+                                DB::raw('SUM(quantity) as total_sold'),
+                                DB::raw('SUM(price * quantity) as total_revenue')
+                            )
+                            ->groupBy('product_name'),
+                        'order_items'
                     )
-                    ->groupBy('product_name')
-                    ->orderByDesc('total_sold')
             )
+            ->defaultSort('total_sold', 'desc')
             ->columns([
                 TextColumn::make('product_name')
                     ->label('Nama Produk')
