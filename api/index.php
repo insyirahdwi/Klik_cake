@@ -21,5 +21,12 @@ foreach ($subdirs as $dir) {
     }
 }
 
+// Copy pre-seeded SQLite database to writable /tmp if using sqlite
+$sqliteTarget = '/tmp/database.sqlite';
+$sqliteSource = __DIR__ . '/../database/database.sqlite';
+if (!file_exists($sqliteTarget) && file_exists($sqliteSource)) {
+    copy($sqliteSource, $sqliteTarget);
+}
+
 // Forward Vercel requests to Laravel's normal public/index.php
 require __DIR__ . '/../public/index.php';
