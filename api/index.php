@@ -29,14 +29,22 @@ if (!file_exists($sqliteTarget) && file_exists($sqliteSource)) {
     @chmod($sqliteTarget, 0666);
 }
 
-// Fallback environment variables if not set in Vercel Dashboard
+// Fallback environment variables for Supabase if not explicitly set in Vercel Dashboard
 if (empty($_ENV['DB_CONNECTION']) && empty(getenv('DB_CONNECTION')) && empty($_SERVER['DB_CONNECTION'])) {
-    putenv('DB_CONNECTION=sqlite');
-    $_ENV['DB_CONNECTION'] = 'sqlite';
-    $_SERVER['DB_CONNECTION'] = 'sqlite';
-    putenv('DB_DATABASE=/tmp/database.sqlite');
-    $_ENV['DB_DATABASE'] = '/tmp/database.sqlite';
-    $_SERVER['DB_DATABASE'] = '/tmp/database.sqlite';
+    $dbConfig = [
+        'DB_CONNECTION' => 'pgsql',
+        'DB_HOST' => 'aws-0-ap-northeast-2.pooler.supabase.com',
+        'DB_PORT' => '6543',
+        'DB_DATABASE' => 'postgres',
+        'DB_USERNAME' => 'postgres.cksissdvxozcamyzhopt',
+        'DB_PASSWORD' => 'klikcake123@',
+        'DB_SSLMODE' => 'require',
+    ];
+    foreach ($dbConfig as $k => $v) {
+        putenv("{$k}={$v}");
+        $_ENV[$k] = $v;
+        $_SERVER[$k] = $v;
+    }
 }
 
 if (empty($_ENV['APP_KEY']) && empty(getenv('APP_KEY')) && empty($_SERVER['APP_KEY'])) {
