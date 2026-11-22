@@ -155,10 +155,27 @@ class CheckoutController extends Controller
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['fulfillment' => $e->getMessage()]);
-        } catch (\Throwable $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
+            \Illuminate\Support\Facades\Log::error('Database error during checkout: ' . $e->getMessage(), [
+                'code' => $e->getCode(),
+                'sql' => $e->getSql(),
+            ]);
+
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['checkout' => 'Gagal memproses pesanan: ' . $e->getMessage()]);
+                ->withErrors([
+                    'fulfillment' => 'Terjadi kendala saat alokasi kuota jadwal pemesanan. Silakan pilih kembali tanggal atau slot waktu lain, lalu coba lagi.'
+                ]);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('General error during checkout: ' . $e->getMessage());
+
+            $friendlyMessage = config('app.debug')
+                ? 'Gagal memproses pesanan: ' . $e->getMessage()
+                : 'Maaf, terjadi kendala saat memproses pesanan Anda. Silakan coba beberapa saat lagi atau hubungi admin.';
+
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['checkout' => $friendlyMessage]);
         }
     }
 }

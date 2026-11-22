@@ -65,10 +65,13 @@ class SlotAvailabilityService
     public function getAvailableSlots(Carbon|string $targetDate, int $leadTimeDays = 1, int $quantity = 1, ?Carbon $now = null): array
     {
         $date = is_string($targetDate) ? Carbon::parse($targetDate)->startOfDay() : $targetDate->copy()->startOfDay();
-        $dateString = $date->toDateString();
+        $dateString = $date->format('Y-m-d');
         $isAllowed = $this->isDateAllowed($date, $leadTimeDays, $now);
 
-        $quotas = SlotQuota::where('date', $dateString)->get()->keyBy('time_slot');
+        $quotas = SlotQuota::where(function ($q) use ($dateString) {
+            $q->where('date', $dateString)
+              ->orWhere('date', $dateString . ' 00:00:00');
+        })->get()->keyBy('time_slot');
 
         $result = [];
         foreach (self::TIME_SLOTS as $slotKey => $slotLabel) {
@@ -101,14 +104,14 @@ class SlotAvailabilityService
     }
 
     /**
-     * Atomically reserve slot quota inside a DB transaction using conditional UPDATE.
+     * Atomically reserve slot quota inside a DB transaction using pessimistic locking & conditional check.
      *
      * @throws SlotFullException
      */
     public function reserveSlot(Carbon|string $targetDate, string $timeSlot, int $quantity = 1, int $leadTimeDays = 1, ?Carbon $now = null): SlotQuota
     {
         $date = is_string($targetDate) ? Carbon::parse($targetDate)->startOfDay() : $targetDate->copy()->startOfDay();
-        $dateString = $date->toDateString();
+        $dateString = $date->format('Y-m-d');
 
         if (! array_key_exists($timeSlot, self::TIME_SLOTS)) {
             throw new \InvalidArgumentException("Slot waktu {$timeSlot} tidak valid.");
@@ -119,21 +122,52 @@ class SlotAvailabilityService
         }
 
         return DB::transaction(function () use ($dateString, $timeSlot, $quantity) {
-            // Ensure slot record exists
-            $slot = SlotQuota::firstOrCreate(
-                ['date' => $dateString, 'time_slot' => $timeSlot],
-                ['capacity' => $this->defaultCapacity, 'booked' => 0]
-            );
+            // Find existing slot with pessimistic locking (FOR UPDATE)
+            $slot = SlotQuota::where(function ($q) use ($dateString) {
+                $q->where('date', $dateString)
+                  ->orWhere('date', $dateString . ' 00:00:00');
+            })
+            ->where('time_slot', $timeSlot)
+            ->lockForUpdate()
+            ->first();
 
-            // Atomic conditional UPDATE: only increments if capacity is not exceeded
-            $affected = DB::table('slot_quotas')
-                ->where('id', $slot->id)
-                ->whereRaw('(booked + ?) <= capacity', [$quantity])
-                ->increment('booked', $quantity);
+            // If not found, safely create it handling race conditions / concurrent inserts
+            if (! $slot) {
+                try {
+                    $slot = SlotQuota::create([
+                        'date' => $dateString,
+                        'time_slot' => $timeSlot,
+                        'capacity' => $this->defaultCapacity,
+                        'booked' => 0,
+                    ]);
+                    // Re-fetch with lock
+                    $slot = SlotQuota::where('id', $slot->id)->lockForUpdate()->first();
+                } catch (\Illuminate\Database\QueryException $e) {
+                    // Handled concurrent insert collision (duplicate key / unique constraint)
+                    $slot = SlotQuota::where(function ($q) use ($dateString) {
+                        $q->where('date', $dateString)
+                          ->orWhere('date', $dateString . ' 00:00:00');
+                    })
+                    ->where('time_slot', $timeSlot)
+                    ->lockForUpdate()
+                    ->first();
 
-            if ($affected === 0) {
-                throw new SlotFullException("Slot waktu {$timeSlot} pada tanggal {$dateString} sudah penuh.");
+                    if (! $slot) {
+                        throw $e;
+                    }
+                }
             }
+
+            // Verify capacity vs booked under lock
+            if (($slot->booked + $quantity) > $slot->capacity) {
+                $remaining = max(0, $slot->capacity - $slot->booked);
+                throw new SlotFullException(
+                    "Slot waktu {$timeSlot} pada tanggal {$dateString} sudah penuh" . ($remaining > 0 ? " (tersisa {$remaining})." : ".")
+                );
+            }
+
+            // Atomic increment
+            $slot->increment('booked', $quantity);
 
             return $slot->fresh();
         });
@@ -145,17 +179,20 @@ class SlotAvailabilityService
     public function releaseSlot(Carbon|string $targetDate, string $timeSlot, int $quantity = 1): void
     {
         $date = is_string($targetDate) ? Carbon::parse($targetDate)->startOfDay() : $targetDate->copy()->startOfDay();
-        $dateString = $date->toDateString();
+        $dateString = $date->format('Y-m-d');
 
         DB::transaction(function () use ($dateString, $timeSlot, $quantity) {
-            $slot = SlotQuota::where('date', $dateString)->where('time_slot', $timeSlot)->first();
+            $slot = SlotQuota::where(function ($q) use ($dateString) {
+                $q->where('date', $dateString)
+                  ->orWhere('date', $dateString . ' 00:00:00');
+            })
+            ->where('time_slot', $timeSlot)
+            ->lockForUpdate()
+            ->first();
 
             if ($slot) {
-                DB::table('slot_quotas')
-                    ->where('id', $slot->id)
-                    ->update([
-                        'booked' => DB::raw("GREATEST(0, CAST(booked AS SIGNED) - {$quantity})"),
-                    ]);
+                $newBooked = max(0, $slot->booked - $quantity);
+                $slot->update(['booked' => $newBooked]);
             }
         });
     }
