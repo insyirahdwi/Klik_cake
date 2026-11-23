@@ -40,6 +40,31 @@
         });
     },
 
+    payWithSnap() {
+        const snapToken = '{{ $charge['snap_token'] ?? '' }}';
+        const redirectUrl = '{{ $charge['redirect_url'] ?? '' }}';
+
+        if (window.snap && snapToken) {
+            window.snap.pay(snapToken, {
+                onSuccess: (result) => {
+                    this.checkPayment();
+                },
+                onPending: (result) => {
+                    this.checkPayment();
+                },
+                onError: (result) => {
+                    this.checkMessage = 'Pembayaran gagal atau dibatalkan.';
+                    this.checkMessageType = 'error';
+                },
+                onClose: () => {
+                    this.checkPayment();
+                }
+            });
+        } else if (redirectUrl) {
+            window.open(redirectUrl, '_blank');
+        }
+    },
+
     async checkPayment() {
         this.isChecking = true;
         this.checkMessage = '';
@@ -140,7 +165,22 @@
 
                 {{-- Payment Methods Navigation Pills --}}
                 <div class="p-6 md:p-8">
-                    <label class="block text-xs font-bold text-cocoa mb-3">Pilih Saluran Pembayaran:</label>
+                    @if(!empty($charge['snap_token']))
+                        <div class="mb-6 p-4 rounded-2xl bg-strawberry/10 border border-strawberry/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                            <div>
+                                <span class="text-xs font-bold text-strawberry-deep block">Bayar Otomatis via Midtrans Snap</span>
+                                <span class="text-[11px] text-cocoa-muted">Buka antarmuka Midtrans untuk memilih e-wallet, QRIS, atau virtual account langsung.</span>
+                            </div>
+                            <button type="button" @click="payWithSnap()" class="whitespace-nowrap px-5 py-2.5 rounded-full bg-strawberry-deep text-white text-xs font-bold hover:bg-strawberry shadow transition-all flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                                <span>Bayar via Snap Popup</span>
+                            </button>
+                        </div>
+                    @endif
+
+                    <label class="block text-xs font-bold text-cocoa mb-3">Atau Pilih Saluran Pembayaran Manual:</label>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
                         @foreach([
                             'qris' => 'QRIS (Instan)',
@@ -257,4 +297,16 @@
 
     </div>
 </div>
+
+@php
+    $snapUrl = config('shop.midtrans.is_production')
+        ? 'https://app.midtrans.com/snap/snap.js'
+        : 'https://app.sandbox.midtrans.com/snap/snap.js';
+    $clientKey = config('shop.midtrans.client_key');
+@endphp
+@push('scripts')
+    @if(!empty($clientKey))
+        <script src="{{ $snapUrl }}" data-client-key="{{ $clientKey }}"></script>
+    @endif
+@endpush
 </x-shop.layout>

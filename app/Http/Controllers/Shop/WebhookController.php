@@ -35,11 +35,20 @@ class WebhookController extends Controller
         $transactionId = (string) ($payload['transaction_id'] ?? '');
 
         $serverKey = (string) config('shop.midtrans.server_key', env('MIDTRANS_SERVER_KEY', ''));
+        $signatureKeyConfig = (string) config('shop.midtrans.signature_key', env('MIDTRANS_SIGNATURE_KEY', ''));
 
         // 1. Signature Verification: SHA512(order_id + status_code + gross_amount + server_key)
-        $expectedSignature = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
+        $expectedSignature1 = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
+        $expectedSignature2 = ! empty($signatureKeyConfig)
+            ? hash('sha512', $orderId . $statusCode . $grossAmount . $signatureKeyConfig)
+            : '';
 
-        if (empty($signatureKey) || ! hash_equals($expectedSignature, $signatureKey)) {
+        $isValid = (! empty($signatureKey) && (
+            hash_equals($expectedSignature1, $signatureKey) ||
+            (! empty($expectedSignature2) && hash_equals($expectedSignature2, $signatureKey))
+        ));
+
+        if (! $isValid) {
             Log::warning("Midtrans webhook: invalid signature for order #{$orderId}");
 
             return response()->json(['message' => 'Invalid signature.'], 401);
