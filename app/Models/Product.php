@@ -16,6 +16,7 @@ class Product extends Model
         'collection_id',
         'name',
         'slug',
+        'image_url',
         'description',
         'portion_info',
         'ingredients',

@@ -206,7 +206,7 @@
         </section>
 
         {{-- ═══════════════════════════════════════════════════════════════
-             4. PRODUCT SHOWCASE — 6 Produk Unggulan Pinky Cake
+             4. PRODUCT SHOWCASE — 6 Produk dari Database
         ═══════════════════════════════════════════════════════════════ --}}
         <section id="menu-favorit" x-data x-intersect.once="$el.classList.add('animate-fade-in-up')">
             <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
@@ -222,31 +222,27 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-                @php
-                    $showcaseProducts = [
-                        ['image' => 'products/kacang-kribo.jpg', 'name' => 'Kacang Kribo', 'tagline' => 'Gurih dan Renyah'],
-                        ['image' => 'products/cheese-cake.jpg', 'name' => 'Cheese Cake', 'tagline' => 'Termanis untuk Harimu'],
-                        ['image' => 'products/floshroll.jpg', 'name' => 'Floshroll', 'tagline' => 'Gurihnya Melimpah, Lembutnya Bikin Nagih'],
-                        ['image' => 'products/roti-sosis.jpg', 'name' => 'Roti Sosis', 'tagline' => 'Gurih Kejunya, Juicy Sosisnya'],
-                        ['image' => 'products/donat-kukus.jpg', 'name' => 'Donat Kukus', 'tagline' => 'Sekali Gigit Langsung Lumer'],
-                        ['image' => 'products/brownies.jpg', 'name' => 'Brownies', 'tagline' => 'Manis, Gurih, dan Moist'],
-                    ];
-                @endphp
-
-                @foreach($showcaseProducts as $i => $item)
-                    <div class="group relative overflow-hidden rounded-2xl bg-blush shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
-                         style="animation-delay: {{ $i * 80 }}ms">
+                @foreach($bestSellers->take(6) as $i => $product)
+                    <a href="{{ route('product.show', $product->slug) }}"
+                       class="group relative overflow-hidden rounded-2xl bg-blush shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
+                       style="animation-delay: {{ $i * 80 }}ms">
                         <div class="relative w-full aspect-[4/5] overflow-hidden">
-                            <img src="{{ asset($item['image']) }}"
-                                 alt="{{ $item['name'] }}"
-                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                 loading="lazy" />
+                            <x-product-image :src="$product->image_url" :alt="$product->name" aspect="4/5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
 
                             {{-- Top badge --}}
+                            @if($product->is_fresh_bake)
                             <div class="absolute top-3 left-3 z-10">
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[9px] font-extrabold text-strawberry-deep uppercase tracking-wider shadow-sm">
                                     <span class="w-1.5 h-1.5 rounded-full bg-strawberry-deep"></span>
                                     Fresh Bake
+                                </span>
+                            </div>
+                            @endif
+
+                            {{-- Price badge --}}
+                            <div class="absolute top-3 right-3 z-10">
+                                <span class="px-2.5 py-1 rounded-full bg-butter text-cocoa text-[10px] font-extrabold shadow-sm">
+                                    {{ $product->formattedPrice() }}
                                 </span>
                             </div>
 
@@ -255,11 +251,15 @@
 
                             {{-- Product info overlay --}}
                             <div class="absolute bottom-0 inset-x-0 p-4 z-10 text-white">
-                                <h3 class="font-serif font-black text-base sm:text-lg leading-tight">{{ $item['name'] }}</h3>
-                                <p class="text-[11px] sm:text-xs text-white/80 mt-0.5 font-medium">{{ $item['tagline'] }}</p>
+                                <h3 class="font-serif font-black text-base sm:text-lg leading-tight">{{ $product->name }}</h3>
+                                <p class="text-[11px] sm:text-xs text-white/80 mt-0.5 font-medium line-clamp-1">{{ $product->description }}</p>
+                                <span class="inline-flex items-center gap-1 mt-2 text-[10px] font-bold text-white/90 group-hover:text-butter transition-colors">
+                                    Pesan Sekarang
+                                    <svg class="w-3 h-3 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
 

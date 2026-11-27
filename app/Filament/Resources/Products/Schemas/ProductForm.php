@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use App\Models\Collection;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -24,6 +25,12 @@ class ProductForm
                     ->label('Slug URL')
                     ->required()
                     ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+
+                TextInput::make('image_url')
+                    ->label('Path Gambar Produk')
+                    ->placeholder('Contoh: products/kacang-kribo.jpg')
+                    ->helperText('Path relatif ke folder public/')
                     ->maxLength(255),
 
                 Select::make('collection_id')
