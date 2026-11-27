@@ -9,13 +9,6 @@ export default defineConfig({
         }),
     ],
     build: {
-        rollupOptions: {
-            output: {
-                manualChunks: {
-                    alpine: ['alpinejs'],
-                },
-            },
-        },
         target: 'es2020',
     },
 });

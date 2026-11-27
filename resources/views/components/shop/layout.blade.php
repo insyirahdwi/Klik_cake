@@ -74,17 +74,17 @@
 
             {{-- Desktop Navigation Links --}}
             <nav class="hidden lg:flex items-center gap-0.5 font-semibold text-[13px] text-cocoa bg-white/70 px-3 py-1.5 rounded-full border border-blush/50 shadow-sm">
-                <a href="{{ route('catalog.index') }}" wire:navigate class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                <a href="{{ route('catalog.index') }}" wire:navigate.hover class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Menu
                 </a>
                 <a href="{{ route('home') }}#fresh-bake" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all flex items-center gap-1.5">
                     <span>Fresh Bake</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-butter animate-pulse"></span>
                 </a>
-                <a href="{{ route('article.index') }}" wire:navigate class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                <a href="{{ route('article.index') }}" wire:navigate.hover class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Artikel
                 </a>
-                <a href="{{ route('networking.index') }}" wire:navigate class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                <a href="{{ route('networking.index') }}" wire:navigate.hover class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Jaringan
                 </a>
                 <a href="{{ route('home') }}#lacak" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all">
@@ -377,28 +377,15 @@
         </div>
     </footer>
 
-    @livewireScriptConfig
+    @livewireScripts
     @stack('scripts')
 
-    {{-- Livewire Navigate Loading Indicator --}}
+    {{-- Livewire Navigate Progress Bar Color --}}
     <style>
         [x-cloak] { display: none !important; }
-        .navigate-loading-bar {
-            position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9999;
-            background: linear-gradient(90deg, #E91E72, #FF6B9D, #E91E72);
-            background-size: 200% 100%;
-            animation: loading-shimmer 1s linear infinite;
-            transition: opacity 0.2s;
-        }
-        @keyframes loading-shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        :root {
+            --livewire-progress-bar-color: #E91E72;
         }
     </style>
-    <div x-data="{ loading: false }"
-         x-on:livewire:navigate-start.window="loading = true"
-         x-on:livewire:navigate-end.window="loading = false">
-        <div x-show="loading" x-cloak class="navigate-loading-bar"></div>
-    </div>
 </body>
 </html>

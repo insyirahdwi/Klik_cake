@@ -41,12 +41,6 @@ class HomeController extends Controller
             ?? Product::with('variants')->where('slug', 'strawberry-cream-cake')->first()
             ?? $bestSellers->first();
 
-        // Fresh bake products
-        $freshBakeProducts = Product::with(['variants', 'collection'])
-            ->where('is_fresh_bake', true)
-            ->take(6)
-            ->get();
-
-        return view('shop.home', compact('categories', 'bestSellers', 'heroProduct', 'freshBakeProducts', 'heroSection'));
+        return view('shop.home', compact('categories', 'bestSellers', 'heroProduct', 'heroSection'));
     }
 }
