@@ -44,6 +44,7 @@ export default {
             boxShadow: {
                 soft: '0 4px 20px -2px rgba(59, 35, 32, 0.06)',
                 pill: '0 4px 14px 0 rgba(184, 40, 80, 0.25)',
+                glow: '0 0 40px -8px rgba(184, 40, 80, 0.15)',
             },
         },
     },

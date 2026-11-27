@@ -4,3 +4,10 @@
 .env.*
 .git
 tests
+database/database.sqlite
+storage/logs
+storage/framework/sessions
+storage/framework/cache
+*.sqlite
+*.sqlite-journal
+/public/images/hero-makassar.jpg

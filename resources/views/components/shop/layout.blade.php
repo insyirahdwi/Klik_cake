@@ -17,6 +17,8 @@
     $announcementText = \App\Models\WebSetting::get('announcement_text', '✨ Fresh Bake Setiap Hari — Pesan Hari Ini untuk Pengiriman Esok Hari di Area Makassar!');
     $waNumber = \App\Models\WebSetting::get('contact_whatsapp', config('shop.wa_number', '6281234567890'));
     $siteName = \App\Models\WebSetting::get('site_name', 'Klik.Cake');
+    $waMessage = rawurlencode('Halo ' . $siteName . ', saya ingin bertanya tentang pesanan roti dan kue.');
+    $waUrl = "https://wa.me/{$waNumber}?text={$waMessage}";
     $siteTagline = \App\Models\WebSetting::get('site_tagline', 'by Pinky Cake & Bakery Makassar');
     $kitchenAddress = \App\Models\WebSetting::get('kitchen_address', "Jl. Boulevard / Panakkukang\nMakassar, Sulawesi Selatan");
     $operatingHours = \App\Models\WebSetting::get('operating_hours', 'Buka setiap hari: 08.00 – 20.00 WITA');
@@ -34,43 +36,58 @@
     @endif
 
     {{-- Top Desktop & Mobile Header (Screen 01–07) --}}
-    <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-blush/80 transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+    <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-blush transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             {{-- Logo --}}
-            <a href="{{ route('home') }}" class="flex items-baseline gap-1.5 group">
-                <span class="font-serif font-black text-2xl md:text-3xl text-strawberry-deep tracking-tight group-hover:opacity-90 transition-opacity">
-                    {{ $siteName }}
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
+                <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-strawberry-deep to-strawberry text-white flex items-center justify-center font-serif font-black text-lg shadow-sm transform group-hover:rotate-6 transition-transform">
+                    K
                 </span>
-                <span class="hidden sm:inline-block text-[11px] font-bold text-cocoa-muted tracking-wider uppercase">
-                    {{ $siteTagline }}
-                </span>
+                <div class="flex flex-col">
+                    <span class="font-serif font-black text-2xl md:text-3xl text-strawberry-deep tracking-tight group-hover:opacity-90 transition-opacity leading-none">
+                        {{ $siteName }}
+                    </span>
+                    <span class="hidden sm:inline-block text-[10px] font-extrabold text-cocoa-muted tracking-wider uppercase mt-1">
+                        {{ $siteTagline }}
+                    </span>
+                </div>
             </a>
 
             {{-- Desktop Navigation Links --}}
-            <nav class="hidden md:flex items-center gap-7 font-bold text-sm text-cocoa">
-                <a href="{{ route('catalog.index') }}" class="hover:text-strawberry-deep transition-colors {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep' : '' }}">
+            <nav class="hidden lg:flex items-center gap-1.5 font-bold text-sm text-cocoa bg-white/80 px-4 py-2 rounded-full border border-blush shadow-sm">
+                <a href="{{ route('catalog.index') }}" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-black' : '' }}">
                     Menu
                 </a>
-                <a href="{{ route('home') }}#fresh-bake" class="hover:text-strawberry-deep transition-colors flex items-center gap-1.5">
+                <a href="{{ route('home') }}#fresh-bake" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all flex items-center gap-1.5">
                     <span>Fresh Bake</span>
                     <span class="w-2 h-2 rounded-full bg-butter animate-pulse"></span>
                 </a>
-                <a href="{{ route('article.index') }}" class="hover:text-strawberry-deep transition-colors {{ request()->routeIs('article.*') ? 'text-strawberry-deep' : '' }}">
+                <a href="{{ route('article.index') }}" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-black' : '' }}">
                     Artikel
                 </a>
-                <a href="{{ route('networking.index') }}" class="hover:text-strawberry-deep transition-colors {{ request()->routeIs('networking.*') ? 'text-strawberry-deep' : '' }}">
+                <a href="{{ route('networking.index') }}" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-black' : '' }}">
                     Jaringan &amp; Cabang
                 </a>
-                <a href="{{ route('home') }}#lacak" class="hover:text-strawberry-deep transition-colors">
+                <a href="{{ route('home') }}#lacak" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all">
                     Lacak
                 </a>
             </nav>
 
-            {{-- Header Actions: User Menu & Cart Button --}}
+            {{-- Header Actions: Contact + User Menu & Cart Button --}}
             @php
                 $cartCount = session('cart_count', 0);
             @endphp
-            <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-2 sm:gap-3">
+                {{-- Contact WhatsApp (as seen in reference header) --}}
+                <a href="{{ $waUrl }}" target="_blank" class="hidden xl:inline-flex items-center gap-2 text-xs font-bold text-cocoa hover:text-strawberry-deep transition-colors px-3 py-1.5 rounded-full hover:bg-blush/30">
+                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                        </svg>
+                    </span>
+                    <span>{{ $waNumber }}</span>
+                </a>
+
                 {{-- User Login / Account Dropdown --}}
                 @guest
                     <a
@@ -161,16 +178,30 @@
                 @endguest
 
                 {{-- Cart Button --}}
-                <x-button as="a" href="#keranjang" variant="primary" size="sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                <a href="#keranjang" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-blush hover:border-strawberry-deep text-cocoa hover:text-strawberry-deep text-xs font-bold shadow-sm transition-all">
+                    <div class="relative">
+                        <svg class="w-4 h-4 text-strawberry-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        @if($cartCount > 0)
+                            <span class="absolute -top-1.5 -right-2 bg-strawberry-deep text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                                {{ $cartCount }}
+                            </span>
+                        @endif
+                    </div>
+                    <span class="hidden sm:inline">Keranjang</span>
+                </a>
+
+                {{-- Quick Primary CTA "Pesan Sekarang" --}}
+                <a href="{{ route('catalog.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-strawberry-deep text-white text-xs font-extrabold shadow-pill hover:bg-strawberry transition-all transform hover:-translate-y-0.5">
+                    <span>Pesan Sekarang</span>
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                     </svg>
-                    <span>Keranjang &middot; {{ $cartCount }}</span>
-                </x-button>
+                </a>
             </div>
         </div>
     </header>
-
     {{-- Flash Notifications --}}
     @if(session('success'))
         <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" class="bg-blush border-b border-blush-dark px-4 py-3 text-center text-sm font-bold text-strawberry-deep transition-all flex items-center justify-center gap-2">
