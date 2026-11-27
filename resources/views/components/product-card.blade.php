@@ -17,34 +17,29 @@ $categoryName = is_object($product) && $product->collection ? $product->collecti
 @endphp
 
 @if($variant === 'showcase')
-    {{-- Premium Showcase Card --}}
-    <article {{ $attributes->merge(['class' => 'group relative flex flex-col bg-white rounded-3xl overflow-hidden border border-blush/60 hover:border-strawberry-deep/30 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2']) }}>
-        {{-- Image Container with circular platter --}}
-        <a href="{{ $href }}" class="relative block pt-6 pb-2 px-4">
-            {{-- Background shape --}}
-            <div class="absolute inset-x-4 top-4 bottom-0 rounded-2xl bg-gradient-to-b from-blush-light via-blush/40 to-transparent"></div>
-
-            <div class="relative w-32 h-32 sm:w-36 sm:h-36 mx-auto">
-                {{-- Plate ring --}}
-                <div class="absolute inset-0 rounded-full bg-gradient-to-b from-white to-blush/60 shadow-inner border border-blush/60 transform group-hover:scale-105 group-hover:rotate-3 transition-transform duration-500"></div>
-                {{-- Product image --}}
-                <div class="relative z-10 w-[85%] h-[85%] rounded-full overflow-hidden shadow-md mx-auto mt-[7.5%] bg-blush group-hover:scale-110 transition-transform duration-500">
-                    <x-product-image :src="$imageUrl" :alt="$name" aspect="1/1" class="w-full h-full object-cover" />
-                </div>
+    {{-- Premium Showcase Card — Poster-style product images --}}
+    <article {{ $attributes->merge(['class' => 'group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-blush/60 hover:border-strawberry-deep/30 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2']) }}>
+        {{-- Image Container — full-bleed poster style --}}
+        <a href="{{ $href }}" class="relative block overflow-hidden">
+            <div class="relative w-full aspect-[4/5] bg-blush overflow-hidden">
+                <x-product-image :src="$imageUrl" :alt="$name" aspect="4/5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
 
             @if($isFreshBake)
-                <div class="absolute top-3 right-3 z-20">
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-butter text-cocoa text-[9px] font-extrabold uppercase tracking-wider shadow-sm">
-                        <span class="w-1 h-1 rounded-full bg-strawberry-deep"></span>
-                        Fresh
+                <div class="absolute top-3 left-3 z-20">
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-butter text-cocoa text-[9px] font-extrabold uppercase tracking-wider shadow-md backdrop-blur-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-strawberry-deep animate-pulse"></span>
+                        Fresh Bake
                     </span>
                 </div>
             @endif
+
+            {{-- Gradient overlay at bottom --}}
+            <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent"></div>
         </a>
 
         {{-- Product Info --}}
-        <div class="flex-1 flex flex-col px-4 sm:px-5 pb-4 sm:pb-5 pt-2">
+        <div class="flex-1 flex flex-col px-4 sm:px-5 pb-4 sm:pb-5 pt-3">
             <a href="{{ $href }}" class="group-hover:text-strawberry-deep transition-colors">
                 <h3 class="font-serif font-black text-sm sm:text-base text-cocoa leading-snug line-clamp-1">{{ $name }}</h3>
             </a>

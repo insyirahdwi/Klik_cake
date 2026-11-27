@@ -241,6 +241,74 @@
         </section>
 
         {{-- ═══════════════════════════════════════════════════════════════
+             4b. PRODUK UNGGULAN PINKY CAKE — Visual poster showcase
+        ═══════════════════════════════════════════════════════════════ --}}
+        <section x-data x-intersect.once="$el.classList.add('animate-fade-in-up')">
+            <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-strawberry-deep/10 text-strawberry-deep text-xs font-extrabold uppercase tracking-[0.15em]">
+                    <span>🎂</span> Koleksi Spesial
+                </span>
+                <h2 class="font-serif font-black text-3xl sm:text-[2.75rem] text-cocoa tracking-tight mt-3 leading-tight">
+                    Produk Unggulan Kami
+                </h2>
+                <p class="text-sm text-cocoa-muted mt-3 leading-relaxed max-w-lg mx-auto">
+                    Varian roti dan kue terbaik dari dapur Pinky Cake — dipanggang segar setiap hari dengan bahan premium.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                @php
+                    $showcaseProducts = [
+                        ['image' => 'products/kacang-kribo.jpg', 'name' => 'Kacang Kribo', 'tagline' => 'Gurih dan Renyah', 'slug' => 'kacang-kribo'],
+                        ['image' => 'products/cheese-cake.jpg', 'name' => 'Cheese Cake', 'tagline' => 'Termanis untuk Harimu', 'slug' => 'cheese-cake'],
+                        ['image' => 'products/floshroll.jpg', 'name' => 'Floshroll', 'tagline' => 'Gurihnya Melimpah, Lembutnya Bikin Nagih', 'slug' => 'floshroll'],
+                        ['image' => 'products/roti-sosis.jpg', 'name' => 'Roti Sosis', 'tagline' => 'Gurih Kejunya, Juicy Sosisnya', 'slug' => 'roti-sosis'],
+                        ['image' => 'products/donat-kukus.jpg', 'name' => 'Donat Kukus', 'tagline' => 'Sekali Gigit Langsung Lumer', 'slug' => 'donat-kukus'],
+                        ['image' => 'products/brownies.jpg', 'name' => 'Brownies', 'tagline' => 'Manis, Gurih, dan Moist', 'slug' => 'brownies'],
+                    ];
+                @endphp
+
+                @foreach($showcaseProducts as $i => $item)
+                    <div class="group relative overflow-hidden rounded-2xl bg-blush shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
+                         style="animation-delay: {{ $i * 80 }}ms">
+                        {{-- Poster Image --}}
+                        <div class="relative w-full aspect-[4/5] overflow-hidden">
+                            <img src="{{ asset($item['image']) }}"
+                                 alt="{{ $item['name'] }}"
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 loading="lazy" />
+
+                            {{-- Top badge --}}
+                            <div class="absolute top-3 left-3 z-10">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[9px] font-extrabold text-strawberry-deep uppercase tracking-wider shadow-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-strawberry-deep"></span>
+                                    Fresh Bake
+                                </span>
+                            </div>
+
+                            {{-- Bottom gradient overlay --}}
+                            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+                            {{-- Product info overlay --}}
+                            <div class="absolute bottom-0 inset-x-0 p-4 z-10 text-white">
+                                <h3 class="font-serif font-black text-base sm:text-lg leading-tight">{{ $item['name'] }}</h3>
+                                <p class="text-[11px] sm:text-xs text-white/80 mt-0.5 font-medium">{{ $item['tagline'] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="text-center pt-8">
+                <a href="{{ route('catalog.index') }}"
+                   class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-strawberry-deep text-white hover:bg-strawberry-hover font-bold text-sm shadow-pill transition-all duration-300">
+                    <span>Lihat Semua Produk</span>
+                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+            </div>
+        </section>
+
+        {{-- ═══════════════════════════════════════════════════════════════
              5. PROMO / CUSTOM CAKE CTA — Wide gradient banner
         ═══════════════════════════════════════════════════════════════ --}}
         <section class="relative rounded-[2rem] overflow-hidden" x-data x-intersect.once="$el.classList.add('animate-fade-in-up')">

@@ -39,10 +39,8 @@
     <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-blush/60 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             {{-- Logo --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-2 group shrink-0">
-                <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-strawberry-deep to-strawberry text-white flex items-center justify-center font-serif font-black text-sm shadow-sm transform group-hover:rotate-6 transition-transform">
-                    K
-                </span>
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
+                <img src="{{ asset('images/logo-pinky-cake.png') }}" alt="Pinky Cake & Bakery" class="h-9 sm:h-10 w-auto object-contain transform group-hover:scale-105 transition-transform duration-200" />
                 <div class="flex flex-col">
                     <span class="font-serif font-black text-lg sm:text-xl text-strawberry-deep tracking-tight leading-none">
                         {{ $siteName }}
@@ -288,12 +286,17 @@
     <footer class="bg-blush/40 border-t border-blush text-cocoa py-12 px-4 sm:px-6 lg:px-8 mt-12">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="md:col-span-1 space-y-3">
-                <span class="font-serif font-black text-2xl text-strawberry-deep tracking-tight">
-                    {{ $siteName }}
-                </span>
-                <span class="text-xs font-bold text-cocoa-muted tracking-wider uppercase block">
-                    {{ $siteTagline }}
-                </span>
+                <div class="flex items-center gap-2.5">
+                    <img src="{{ asset('images/logo-pinky-cake.png') }}" alt="Pinky Cake & Bakery" class="h-10 w-auto object-contain" />
+                    <div>
+                        <span class="font-serif font-black text-xl text-strawberry-deep tracking-tight block">
+                            {{ $siteName }}
+                        </span>
+                        <span class="text-[9px] font-bold text-cocoa-muted tracking-wider uppercase block">
+                            {{ $siteTagline }}
+                        </span>
+                    </div>
+                </div>
                 <p class="font-sans text-xs text-cocoa-muted leading-relaxed">
                     Pesan roti &amp; kue segar dari Makassar, pilih jadwal, bayar, pantau sampai matang. Dibuat langsung di dapur kami dengan mentega berkualitas dan bahan pilihan.
                 </p>
