@@ -35,140 +35,121 @@
         </aside>
     @endif
 
-    {{-- Top Desktop & Mobile Header (Screen 01–07) --}}
-    <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-blush transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    {{-- Top Desktop & Mobile Header --}}
+    <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-blush/60 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             {{-- Logo --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
-                <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-strawberry-deep to-strawberry text-white flex items-center justify-center font-serif font-black text-lg shadow-sm transform group-hover:rotate-6 transition-transform">
+            <a href="{{ route('home') }}" class="flex items-center gap-2 group shrink-0">
+                <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-strawberry-deep to-strawberry text-white flex items-center justify-center font-serif font-black text-sm shadow-sm transform group-hover:rotate-6 transition-transform">
                     K
                 </span>
                 <div class="flex flex-col">
-                    <span class="font-serif font-black text-2xl md:text-3xl text-strawberry-deep tracking-tight group-hover:opacity-90 transition-opacity leading-none">
+                    <span class="font-serif font-black text-lg sm:text-xl text-strawberry-deep tracking-tight leading-none">
                         {{ $siteName }}
                     </span>
-                    <span class="hidden sm:inline-block text-[10px] font-extrabold text-cocoa-muted tracking-wider uppercase mt-1">
+                    <span class="hidden sm:inline-block text-[8px] font-extrabold text-cocoa-muted tracking-widest uppercase leading-none mt-0.5">
                         {{ $siteTagline }}
                     </span>
                 </div>
             </a>
 
             {{-- Desktop Navigation Links --}}
-            <nav class="hidden lg:flex items-center gap-1.5 font-bold text-sm text-cocoa bg-white/80 px-4 py-2 rounded-full border border-blush shadow-sm">
-                <a href="{{ route('catalog.index') }}" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-black' : '' }}">
+            <nav class="hidden lg:flex items-center gap-0.5 font-semibold text-[13px] text-cocoa bg-white/70 px-3 py-1.5 rounded-full border border-blush/50 shadow-sm">
+                <a href="{{ route('catalog.index') }}" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Menu
                 </a>
-                <a href="{{ route('home') }}#fresh-bake" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all flex items-center gap-1.5">
+                <a href="{{ route('home') }}#fresh-bake" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all flex items-center gap-1.5">
                     <span>Fresh Bake</span>
-                    <span class="w-2 h-2 rounded-full bg-butter animate-pulse"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-butter animate-pulse"></span>
                 </a>
-                <a href="{{ route('article.index') }}" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-black' : '' }}">
+                <a href="{{ route('article.index') }}" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Artikel
                 </a>
-                <a href="{{ route('networking.index') }}" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-black' : '' }}">
-                    Jaringan &amp; Cabang
+                <a href="{{ route('networking.index') }}" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                    Jaringan
                 </a>
-                <a href="{{ route('home') }}#lacak" class="px-3.5 py-1.5 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all">
+                <a href="{{ route('home') }}#lacak" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all">
                     Lacak
                 </a>
             </nav>
 
-            {{-- Header Actions: Contact + User Menu & Cart Button --}}
+            {{-- Header Actions --}}
             @php
                 $cartCount = session('cart_count', 0);
             @endphp
-            <div class="flex items-center gap-2 sm:gap-3">
-                {{-- Contact WhatsApp (as seen in reference header) --}}
-                <a href="{{ $waUrl }}" target="_blank" class="hidden xl:inline-flex items-center gap-2 text-xs font-bold text-cocoa hover:text-strawberry-deep transition-colors px-3 py-1.5 rounded-full hover:bg-blush/30">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
-                        </svg>
-                    </span>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                {{-- WhatsApp --}}
+                <a href="{{ $waUrl }}" target="_blank" class="hidden xl:inline-flex items-center gap-1.5 text-[11px] font-bold text-cocoa hover:text-emerald-600 transition-colors px-2.5 py-1.5 rounded-full hover:bg-emerald-50">
+                    <svg class="w-3.5 h-3.5 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                    </svg>
                     <span>{{ $waNumber }}</span>
                 </a>
 
-                {{-- User Login / Account Dropdown --}}
+                {{-- User Login / Account --}}
                 @guest
-                    <a
-                        href="{{ route('login') }}"
-                        class="inline-flex items-center gap-1.5 text-xs font-bold text-cocoa hover:text-strawberry-deep px-3.5 py-2 rounded-full border border-blush hover:border-strawberry-deep/30 bg-white shadow-sm transition-all"
-                    >
-                        <svg class="w-4 h-4 text-cocoa-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <a href="{{ route('login') }}"
+                       class="inline-flex items-center gap-1.5 text-[11px] font-bold text-cocoa hover:text-strawberry-deep px-3 py-1.5 rounded-full border border-blush/60 hover:border-strawberry-deep/30 bg-white shadow-sm transition-all">
+                        <svg class="w-3.5 h-3.5 text-cocoa-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                         </svg>
                         <span>Masuk</span>
                     </a>
                 @else
                     <div class="relative" x-data="{ userMenuOpen: false }" @click.outside="userMenuOpen = false">
-                        <button
-                            type="button"
-                            @click="userMenuOpen = !userMenuOpen"
-                            class="inline-flex items-center gap-2 text-xs font-bold text-cocoa hover:text-strawberry-deep pl-1.5 pr-3 py-1.5 rounded-full border border-blush bg-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-strawberry-deep cursor-pointer"
-                        >
-                            <span class="w-6 h-6 rounded-full bg-blush text-strawberry-deep font-black text-xs flex items-center justify-center uppercase">
+                        <button type="button" @click="userMenuOpen = !userMenuOpen"
+                                class="inline-flex items-center gap-1.5 text-[11px] font-bold text-cocoa hover:text-strawberry-deep pl-1 pr-2.5 py-1 rounded-full border border-blush/60 bg-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-strawberry-deep/30 cursor-pointer">
+                            <span class="w-5 h-5 rounded-full bg-gradient-to-br from-strawberry-deep to-strawberry text-white font-black text-[10px] flex items-center justify-center uppercase">
                                 {{ substr(auth()->user()->name, 0, 1) }}
                             </span>
-                            <span class="max-w-[100px] truncate">{{ auth()->user()->name }}</span>
+                            <span class="max-w-[80px] truncate hidden sm:inline">{{ auth()->user()->name }}</span>
                             @if(auth()->user()->isAdmin())
-                                <span class="px-1.5 py-0.5 rounded-full bg-butter text-[9px] font-black text-cocoa">Admin</span>
+                                <span class="px-1 py-px rounded bg-butter text-[8px] font-black text-cocoa leading-none">Admin</span>
                             @endif
-                            <svg class="w-3.5 h-3.5 text-cocoa-muted transition-transform duration-200" :class="userMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            <svg class="w-3 h-3 text-cocoa-muted transition-transform duration-200" :class="userMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
 
                         {{-- Dropdown Menu --}}
-                        <div
-                            x-show="userMenuOpen"
-                            x-cloak
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 mt-2 w-56 rounded-2xl bg-white shadow-xl border border-blush py-2 z-50 text-left"
-                        >
-                            <div class="px-4 py-2 border-b border-blush/60">
-                                <p class="text-xs font-bold text-cocoa truncate">{{ auth()->user()->name }}</p>
-                                <p class="text-[11px] text-cocoa-muted truncate">{{ auth()->user()->email }}</p>
+                        <div x-show="userMenuOpen" x-cloak
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="transform opacity-0 scale-95"
+                             x-transition:enter-end="transform opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="transform opacity-100 scale-100"
+                             x-transition:leave-end="transform opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-52 rounded-xl bg-white shadow-xl border border-blush/60 py-1.5 z-50 text-left">
+                            <div class="px-3.5 py-2 border-b border-blush/40">
+                                <p class="text-[11px] font-bold text-cocoa truncate">{{ auth()->user()->name }}</p>
+                                <p class="text-[10px] text-cocoa-muted truncate">{{ auth()->user()->email }}</p>
                             </div>
 
                             @if(auth()->user()->isAdmin())
-                                <a
-                                    href="{{ url('/admin') }}"
-                                    class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-strawberry-deep hover:bg-blush/40 transition-colors"
-                                >
-                                    <svg class="w-4 h-4 text-strawberry-deep" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <a href="{{ url('/admin') }}" class="flex items-center gap-2 px-3.5 py-2 text-[11px] font-bold text-strawberry-deep hover:bg-blush/30 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                     <span>Panel Admin</span>
                                 </a>
-                                <div class="border-t border-blush/60 my-1"></div>
+                                <div class="border-t border-blush/40 my-0.5"></div>
                             @endif
 
-                            <a
-                                href="{{ route('account.dashboard') }}"
-                                class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-cocoa hover:bg-cream transition-colors"
-                            >
-                                <svg class="w-4 h-4 text-cocoa-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            <a href="{{ route('account.dashboard') }}" class="flex items-center gap-2 px-3.5 py-2 text-[11px] font-semibold text-cocoa hover:bg-cream transition-colors">
+                                <svg class="w-3.5 h-3.5 text-cocoa-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                 </svg>
                                 <span>Akun Saya &amp; Pesanan</span>
                             </a>
 
-                            <div class="border-t border-blush/60 my-1"></div>
+                            <div class="border-t border-blush/40 my-0.5"></div>
 
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button
-                                    type="submit"
-                                    class="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                                >
-                                    <svg class="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                <button type="submit" class="w-full text-left flex items-center gap-2 px-3.5 py-2 text-[11px] font-semibold text-red-500 hover:bg-red-50 transition-colors cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                                     </svg>
                                     <span>Keluar</span>
                                 </button>
@@ -178,13 +159,13 @@
                 @endguest
 
                 {{-- Cart Button --}}
-                <a href="#keranjang" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-blush hover:border-strawberry-deep text-cocoa hover:text-strawberry-deep text-xs font-bold shadow-sm transition-all">
+                <a href="#keranjang" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-white border border-blush/60 hover:border-strawberry-deep/30 text-cocoa hover:text-strawberry-deep text-[11px] font-bold shadow-sm transition-all">
                     <div class="relative">
-                        <svg class="w-4 h-4 text-strawberry-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        <svg class="w-3.5 h-3.5 text-strawberry-deep" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
                         </svg>
                         @if($cartCount > 0)
-                            <span class="absolute -top-1.5 -right-2 bg-strawberry-deep text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                            <span class="absolute -top-1.5 -right-2 bg-strawberry-deep text-white text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center ring-2 ring-white">
                                 {{ $cartCount }}
                             </span>
                         @endif
@@ -192,11 +173,11 @@
                     <span class="hidden sm:inline">Keranjang</span>
                 </a>
 
-                {{-- Quick Primary CTA "Pesan Sekarang" --}}
-                <a href="{{ route('catalog.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-strawberry-deep text-white text-xs font-extrabold shadow-pill hover:bg-strawberry transition-all transform hover:-translate-y-0.5">
+                {{-- Primary CTA --}}
+                <a href="{{ route('catalog.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-strawberry-deep text-white text-[11px] font-extrabold shadow-pill hover:bg-strawberry-hover transition-all hover:-translate-y-px">
                     <span>Pesan Sekarang</span>
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                     </svg>
                 </a>
             </div>
@@ -236,61 +217,69 @@
         </a>
     </aside>
 
-    {{-- Mobile Bottom Bar Navigation (Screen 01–07) --}}
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-blush shadow-lg px-4 py-2 flex items-center justify-around">
-        <a href="{{ route('home') }}" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1 {{ request()->routeIs('home') ? 'text-strawberry-deep font-black' : '' }}">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-            </svg>
-            <span class="text-[10px] font-bold">Beranda</span>
+    {{-- Mobile Bottom Bar Navigation --}}
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-blush/50 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] px-2 pb-[env(safe-area-inset-bottom)] flex items-center justify-around">
+        {{-- Beranda --}}
+        <a href="{{ route('home') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('home') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+            @if(request()->routeIs('home'))
+                <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"/><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.432z"/></svg>
+            @else
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+            @endif
+            <span class="text-[9px] font-bold leading-none">Beranda</span>
         </a>
 
-        <a href="{{ route('catalog.index') }}" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1 {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep font-black' : '' }}">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
-            </svg>
-            <span class="text-[10px] font-bold">Menu</span>
+        {{-- Menu --}}
+        <a href="{{ route('catalog.index') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+            @if(request()->routeIs('catalog.*'))
+                <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75z" clip-rule="evenodd"/></svg>
+            @else
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h7.5"/></svg>
+            @endif
+            <span class="text-[9px] font-bold leading-none">Menu</span>
         </a>
 
-        <a href="{{ route('article.index') }}" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1 {{ request()->routeIs('article.*') ? 'text-strawberry-deep font-black' : '' }}">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-            </svg>
-            <span class="text-[10px] font-bold">Artikel</span>
+        {{-- Artikel --}}
+        <a href="{{ route('article.index') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('article.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+            @if(request()->routeIs('article.*'))
+                <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M4.125 3C3.089 3 2.25 3.84 2.25 4.875V18a3 3 0 003 3h15a3 3 0 01-3-3V4.875C17.25 3.839 16.41 3 15.375 3H4.125zM12 9.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5H12zm-.75-2.25a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5H12a.75.75 0 01-.75-.75zM6 12.75a.75.75 0 000 1.5h7.5a.75.75 0 000-1.5H6zm-.75 3.75a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5H6a.75.75 0 01-.75-.75zM6 6.75a2.25 2.25 0 00-2.25 2.25v1.5a2.25 2.25 0 002.25 2.25h3a2.25 2.25 0 002.25-2.25V9A2.25 2.25 0 009 6.75H6z" clip-rule="evenodd"/><path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 01-3 0V6.75z"/></svg>
+            @else
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+            @endif
+            <span class="text-[9px] font-bold leading-none">Artikel</span>
         </a>
 
-        <a href="{{ route('home') }}#lacak" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-            </svg>
-            <span class="text-[10px] font-bold">Lacak</span>
+        {{-- Lacak --}}
+        <a href="{{ route('home') }}#lacak" class="flex flex-col items-center gap-0.5 py-2 px-3 text-cocoa-muted hover:text-cocoa transition-colors">
+            <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+            <span class="text-[9px] font-bold leading-none">Lacak</span>
         </a>
 
-        <a href="#keranjang" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1 relative">
+        {{-- Keranjang --}}
+        <a href="#keranjang" class="flex flex-col items-center gap-0.5 py-2 px-3 text-cocoa-muted hover:text-cocoa transition-colors relative">
             <div class="relative">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                </svg>
-                <span class="absolute -top-1 -right-2 bg-strawberry-deep text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
-                    {{ $cartCount }}
-                </span>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+                @if($cartCount > 0)
+                    <span class="absolute -top-1 -right-1.5 bg-strawberry-deep text-white text-[7px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center ring-1.5 ring-white">{{ $cartCount }}</span>
+                @endif
             </div>
-            <span class="text-[10px] font-bold">Keranjang</span>
+            <span class="text-[9px] font-bold leading-none">Keranjang</span>
         </a>
 
+        {{-- Akun / Masuk --}}
         @guest
-            <a href="{{ route('login') }}" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1 {{ request()->routeIs('login') ? 'text-strawberry-deep font-black' : '' }}">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-                <span class="text-[10px] font-bold">Masuk</span>
+            <a href="{{ route('login') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('login') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                <span class="text-[9px] font-bold leading-none">Masuk</span>
             </a>
         @else
-            <a href="{{ route('account.dashboard') }}" class="flex flex-col items-center gap-1 text-cocoa hover:text-strawberry-deep transition-colors py-1 {{ request()->routeIs('account.*') ? 'text-strawberry-deep font-black' : '' }}">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-[10px] font-bold">Akun</span>
+            <a href="{{ route('account.dashboard') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('account.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+                @if(request()->routeIs('account.*'))
+                    <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"/></svg>
+                @else
+                    <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                @endif
+                <span class="text-[9px] font-bold leading-none">Akun</span>
             </a>
         @endguest
     </nav>
