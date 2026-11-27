@@ -1,13 +1,20 @@
 {
+  "_alpine-BArSFyul.js": {
+    "file": "assets/alpine-BArSFyul.js",
+    "name": "alpine"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-_enwUjKn.css",
+    "file": "assets/app-CJGYXyL2.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app--Jg6t0-A.js",
+    "file": "assets/app-D0q_c8J9.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_alpine-BArSFyul.js"
+    ]
   }
 }

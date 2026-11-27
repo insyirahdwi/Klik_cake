@@ -11,3 +11,7 @@ storage/framework/cache
 *.sqlite
 *.sqlite-journal
 /public/images/hero-makassar.jpg
+# Filament admin assets — not needed for shop visitors (4.5MB savings)
+public/js/filament/
+public/css/filament/
+public/fonts/filament/

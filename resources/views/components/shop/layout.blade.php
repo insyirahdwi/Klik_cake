@@ -8,20 +8,40 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet"></noscript>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 @php
-    $announcementEnabled = (bool) \App\Models\WebSetting::get('announcement_enabled', '1');
-    $announcementText = \App\Models\WebSetting::get('announcement_text', '✨ Fresh Bake Setiap Hari — Pesan Hari Ini untuk Pengiriman Esok Hari di Area Makassar!');
-    $waNumber = \App\Models\WebSetting::get('contact_whatsapp', config('shop.wa_number', '6281234567890'));
-    $siteName = \App\Models\WebSetting::get('site_name', 'Klik.Cake');
+    // Batch load all settings in ONE query instead of 7 individual queries
+    $settings = \App\Models\WebSetting::getMany([
+        'announcement_enabled',
+        'announcement_text',
+        'contact_whatsapp',
+        'site_name',
+        'site_tagline',
+        'kitchen_address',
+        'operating_hours',
+    ], [
+        'announcement_enabled' => '1',
+        'announcement_text' => '✨ Fresh Bake Setiap Hari — Pesan Hari Ini untuk Pengiriman Esok Hari di Area Makassar!',
+        'contact_whatsapp' => config('shop.wa_number', '6281234567890'),
+        'site_name' => 'Klik.Cake',
+        'site_tagline' => 'by Pinky Cake & Bakery Makassar',
+        'kitchen_address' => "Jl. Boulevard / Panakkukang\nMakassar, Sulawesi Selatan",
+        'operating_hours' => 'Buka setiap hari: 08.00 – 20.00 WITA',
+    ]);
+
+    $announcementEnabled = (bool) $settings['announcement_enabled'];
+    $announcementText = $settings['announcement_text'];
+    $waNumber = $settings['contact_whatsapp'];
+    $siteName = $settings['site_name'];
+    $siteTagline = $settings['site_tagline'];
+    $kitchenAddress = $settings['kitchen_address'];
+    $operatingHours = $settings['operating_hours'];
     $waMessage = rawurlencode('Halo ' . $siteName . ', saya ingin bertanya tentang pesanan roti dan kue.');
     $waUrl = "https://wa.me/{$waNumber}?text={$waMessage}";
-    $siteTagline = \App\Models\WebSetting::get('site_tagline', 'by Pinky Cake & Bakery Makassar');
-    $kitchenAddress = \App\Models\WebSetting::get('kitchen_address', "Jl. Boulevard / Panakkukang\nMakassar, Sulawesi Selatan");
-    $operatingHours = \App\Models\WebSetting::get('operating_hours', 'Buka setiap hari: 08.00 – 20.00 WITA');
     $socialNetworks = \App\Models\Networking::social()->get();
     $footerPages = \App\Models\Page::published()->where('show_in_footer', true)->orderBy('sort_order')->get();
 @endphp
