@@ -4,7 +4,7 @@
         
         {{-- Breadcrumb --}}
         <nav class="flex items-center gap-2 text-xs md:text-sm text-cocoa-muted mb-6">
-            <a href="{{ route('home') }}" class="hover:text-strawberry transition-colors">Beranda</a>
+            <a href="{{ route('home') }}" wire:navigate class="hover:text-strawberry transition-colors">Beranda</a>
             <span>/</span>
             <span class="text-cocoa font-semibold">Keranjang Belanja</span>
         </nav>

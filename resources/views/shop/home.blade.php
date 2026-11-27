@@ -45,7 +45,7 @@
 
                         {{-- Dual CTAs --}}
                         <div class="flex flex-wrap items-center gap-4 pt-1">
-                            <a href="{{ $heroSection->button_link ?? route('catalog.index') }}"
+                            <a href="{{ $heroSection->button_link ?? route('catalog.index') }}" wire:navigate
                                class="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-strawberry-deep text-white font-extrabold text-sm sm:text-base shadow-pill hover:bg-strawberry-hover hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                                 <span>{{ $heroSection->button_text ?? 'Pesan Sekarang' }}</span>
                                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -129,7 +129,7 @@
                         </div>
                         <div class="mt-3 pt-3 border-t border-white/15 flex items-center justify-between">
                             <span class="text-[10px] text-white/60 font-medium">Tanpa Pengawet · Bahan Alami</span>
-                            <a href="{{ route('product.show', $heroProduct->slug) }}"
+                            <a href="{{ route('product.show', $heroProduct->slug) }}" wire:navigate
                                class="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-strawberry-deep font-extrabold text-xs shadow-md hover:bg-butter hover:text-cocoa transition-all">
                                 <span>Pesan</span>
                                 <svg class="w-3 h-3 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -177,7 +177,7 @@
                     <span class="text-xs font-extrabold uppercase tracking-[0.2em] text-strawberry-deep">Eksplorasi Rasa</span>
                     <h2 class="font-serif font-black text-3xl sm:text-4xl text-cocoa mt-1 tracking-tight">Kategori Menu</h2>
                 </div>
-                <a href="{{ route('catalog.index') }}" class="group hidden sm:flex items-center gap-2 text-sm font-bold text-strawberry-deep hover:underline underline-offset-4">
+                <a href="{{ route('catalog.index') }}" wire:navigate class="group hidden sm:flex items-center gap-2 text-sm font-bold text-strawberry-deep hover:underline underline-offset-4">
                     <span>Semua Menu</span>
                     <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>
@@ -185,7 +185,7 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 @foreach($categories as $i => $cat)
-                    <a href="{{ route('catalog.category', $cat->slug) }}"
+                    <a href="{{ route('catalog.category', $cat->slug) }}" wire:navigate
                        class="group relative flex flex-col items-center justify-center gap-3 p-6 sm:p-8 rounded-3xl bg-white border-2 border-transparent hover:border-strawberry-deep/30 text-cocoa hover:text-strawberry-deep font-bold text-sm sm:text-base transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl overflow-hidden"
                        style="animation-delay: {{ $i * 100 }}ms">
                         {{-- Soft bg glow on hover --}}
@@ -223,7 +223,7 @@
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 @foreach($bestSellers->take(6) as $i => $product)
-                    <a href="{{ route('product.show', $product->slug) }}"
+                    <a href="{{ route('product.show', $product->slug) }}" wire:navigate
                        class="group relative overflow-hidden rounded-2xl bg-blush shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
                        style="animation-delay: {{ $i * 80 }}ms">
                         <div class="relative w-full aspect-[4/5] overflow-hidden">
@@ -264,7 +264,7 @@
             </div>
 
             <div class="text-center pt-10">
-                <a href="{{ route('catalog.index') }}"
+                <a href="{{ route('catalog.index') }}" wire:navigate
                    class="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-cocoa text-white hover:bg-strawberry-deep font-bold text-sm shadow-soft hover:shadow-pill transition-all duration-300">
                     <span>Lihat Seluruh Menu</span>
                     <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -296,7 +296,7 @@
                     </p>
 
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-                        <a href="{{ route('catalog.category', 'cake') }}"
+                        <a href="{{ route('catalog.category', 'cake') }}" wire:navigate
                            class="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-butter text-cocoa font-extrabold text-sm hover:bg-white shadow-md transition-all">
                             <span>Pesan Custom Cake</span>
                             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -402,7 +402,7 @@
                     Tiga slot pemanggangan setiap hari: <strong>10.00</strong>, <strong>13.00</strong>, dan <strong>16.00 WITA</strong>. Kuota 5 cake per slot.
                 </p>
             </div>
-            <a href="{{ route('catalog.index') }}"
+            <a href="{{ route('catalog.index') }}" wire:navigate
                class="group inline-flex items-center gap-2 px-7 py-4 rounded-full bg-strawberry-deep text-white font-extrabold text-sm shadow-pill hover:bg-strawberry-hover transition-all shrink-0">
                 <span>Pilih Jadwal</span>
                 <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>

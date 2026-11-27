@@ -12,6 +12,7 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet"></noscript>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 @php
     // Batch load all settings in ONE query instead of 7 individual queries
@@ -59,7 +60,7 @@
     <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-blush/60 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             {{-- Logo --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
+            <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2.5 group shrink-0">
                 <img src="{{ asset('images/logo-pinky-cake.png') }}" alt="Pinky Cake & Bakery" class="h-9 sm:h-10 w-auto object-contain transform group-hover:scale-105 transition-transform duration-200" />
                 <div class="flex flex-col">
                     <span class="font-serif font-black text-lg sm:text-xl text-strawberry-deep tracking-tight leading-none">
@@ -73,17 +74,17 @@
 
             {{-- Desktop Navigation Links --}}
             <nav class="hidden lg:flex items-center gap-0.5 font-semibold text-[13px] text-cocoa bg-white/70 px-3 py-1.5 rounded-full border border-blush/50 shadow-sm">
-                <a href="{{ route('catalog.index') }}" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                <a href="{{ route('catalog.index') }}" wire:navigate class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Menu
                 </a>
                 <a href="{{ route('home') }}#fresh-bake" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all flex items-center gap-1.5">
                     <span>Fresh Bake</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-butter animate-pulse"></span>
                 </a>
-                <a href="{{ route('article.index') }}" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                <a href="{{ route('article.index') }}" wire:navigate class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('article.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Artikel
                 </a>
-                <a href="{{ route('networking.index') }}" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
+                <a href="{{ route('networking.index') }}" wire:navigate class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all {{ request()->routeIs('networking.*') ? 'text-strawberry-deep bg-blush font-bold' : '' }}">
                     Jaringan
                 </a>
                 <a href="{{ route('home') }}#lacak" class="px-3 py-1 rounded-full hover:text-strawberry-deep hover:bg-blush/40 transition-all">
@@ -98,7 +99,7 @@
             <div class="flex items-center gap-1.5 sm:gap-2">
                 {{-- User Login / Account --}}
                 @guest
-                    <a href="{{ route('login') }}"
+                    <a href="{{ route('login') }}" wire:navigate
                        class="inline-flex items-center gap-1.5 text-[11px] font-bold text-cocoa hover:text-strawberry-deep px-3 py-1.5 rounded-full border border-blush/60 hover:border-strawberry-deep/30 bg-white shadow-sm transition-all">
                         <svg class="w-3.5 h-3.5 text-cocoa-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -146,7 +147,7 @@
                                 <div class="border-t border-blush/40 my-0.5"></div>
                             @endif
 
-                            <a href="{{ route('account.dashboard') }}" class="flex items-center gap-2 px-3.5 py-2 text-[11px] font-semibold text-cocoa hover:bg-cream transition-colors">
+                            <a href="{{ route('account.dashboard') }}" wire:navigate class="flex items-center gap-2 px-3.5 py-2 text-[11px] font-semibold text-cocoa hover:bg-cream transition-colors">
                                 <svg class="w-3.5 h-3.5 text-cocoa-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                 </svg>
@@ -184,7 +185,7 @@
                 </a>
 
                 {{-- Primary CTA --}}
-                <a href="{{ route('catalog.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-strawberry-deep text-white text-[11px] font-extrabold shadow-pill hover:bg-strawberry-hover transition-all hover:-translate-y-px">
+                <a href="{{ route('catalog.index') }}" wire:navigate class="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-strawberry-deep text-white text-[11px] font-extrabold shadow-pill hover:bg-strawberry-hover transition-all hover:-translate-y-px">
                     <span>Pesan Sekarang</span>
                     <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
@@ -230,7 +231,7 @@
     {{-- Mobile Bottom Bar Navigation --}}
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-blush/50 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] px-2 pb-[env(safe-area-inset-bottom)] flex items-center justify-around">
         {{-- Beranda --}}
-        <a href="{{ route('home') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('home') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+        <a href="{{ route('home') }}" wire:navigate class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('home') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
             @if(request()->routeIs('home'))
                 <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"/><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.432z"/></svg>
             @else
@@ -240,7 +241,7 @@
         </a>
 
         {{-- Menu --}}
-        <a href="{{ route('catalog.index') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+        <a href="{{ route('catalog.index') }}" wire:navigate class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('catalog.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
             @if(request()->routeIs('catalog.*'))
                 <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75z" clip-rule="evenodd"/></svg>
             @else
@@ -250,7 +251,7 @@
         </a>
 
         {{-- Artikel --}}
-        <a href="{{ route('article.index') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('article.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+        <a href="{{ route('article.index') }}" wire:navigate class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('article.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
             @if(request()->routeIs('article.*'))
                 <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M4.125 3C3.089 3 2.25 3.84 2.25 4.875V18a3 3 0 003 3h15a3 3 0 01-3-3V4.875C17.25 3.839 16.41 3 15.375 3H4.125zM12 9.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5H12zm-.75-2.25a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5H12a.75.75 0 01-.75-.75zM6 12.75a.75.75 0 000 1.5h7.5a.75.75 0 000-1.5H6zm-.75 3.75a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5H6a.75.75 0 01-.75-.75zM6 6.75a2.25 2.25 0 00-2.25 2.25v1.5a2.25 2.25 0 002.25 2.25h3a2.25 2.25 0 002.25-2.25V9A2.25 2.25 0 009 6.75H6z" clip-rule="evenodd"/><path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 01-3 0V6.75z"/></svg>
             @else
@@ -278,12 +279,12 @@
 
         {{-- Akun / Masuk --}}
         @guest
-            <a href="{{ route('login') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('login') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+            <a href="{{ route('login') }}" wire:navigate class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('login') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
                 <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                 <span class="text-[9px] font-bold leading-none">Masuk</span>
             </a>
         @else
-            <a href="{{ route('account.dashboard') }}" class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('account.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
+            <a href="{{ route('account.dashboard') }}" wire:navigate class="flex flex-col items-center gap-0.5 py-2 px-3 transition-colors {{ request()->routeIs('account.*') ? 'text-strawberry-deep' : 'text-cocoa-muted hover:text-cocoa' }}">
                 @if(request()->routeIs('account.*'))
                     <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"/></svg>
                 @else
@@ -339,21 +340,21 @@
             <div>
                 <h4 class="font-serif font-bold text-base text-cocoa mb-3">Menu Koleksi</h4>
                 <ul class="space-y-2 text-sm text-cocoa-muted font-medium">
-                    <li><a href="{{ route('catalog.category', 'cake') }}" class="hover:text-strawberry-deep transition-colors">Cake &amp; Tart Ulang Tahun</a></li>
-                    <li><a href="{{ route('catalog.category', 'roti') }}" class="hover:text-strawberry-deep transition-colors">Roti Manis &amp; Gurih</a></li>
-                    <li><a href="{{ route('catalog.category', 'pastry') }}" class="hover:text-strawberry-deep transition-colors">Croissant &amp; Pastry</a></li>
-                    <li><a href="{{ route('catalog.category', 'snackbox') }}" class="hover:text-strawberry-deep transition-colors">Snackbox Acara &amp; Kantor</a></li>
+                    <li><a href="{{ route('catalog.category', 'cake') }}" wire:navigate class="hover:text-strawberry-deep transition-colors">Cake &amp; Tart Ulang Tahun</a></li>
+                    <li><a href="{{ route('catalog.category', 'roti') }}" wire:navigate class="hover:text-strawberry-deep transition-colors">Roti Manis &amp; Gurih</a></li>
+                    <li><a href="{{ route('catalog.category', 'pastry') }}" wire:navigate class="hover:text-strawberry-deep transition-colors">Croissant &amp; Pastry</a></li>
+                    <li><a href="{{ route('catalog.category', 'snackbox') }}" wire:navigate class="hover:text-strawberry-deep transition-colors">Snackbox Acara &amp; Kantor</a></li>
                 </ul>
             </div>
 
             <div>
                 <h4 class="font-serif font-bold text-base text-cocoa mb-3">Informasi &amp; Jejaring</h4>
                 <ul class="space-y-2 text-sm text-cocoa-muted font-medium">
-                    <li><a href="{{ route('article.index') }}" class="hover:text-strawberry-deep transition-colors">Artikel &amp; Resep Dapur</a></li>
-                    <li><a href="{{ route('networking.index') }}" class="hover:text-strawberry-deep transition-colors">Cabang Dapur &amp; Mitra Reseller</a></li>
+                    <li><a href="{{ route('article.index') }}" wire:navigate class="hover:text-strawberry-deep transition-colors">Artikel &amp; Resep Dapur</a></li>
+                    <li><a href="{{ route('networking.index') }}" wire:navigate class="hover:text-strawberry-deep transition-colors">Cabang Dapur &amp; Mitra Reseller</a></li>
                     @foreach($footerPages as $fPage)
                         <li>
-                            <a href="{{ url('/' . $fPage->slug) }}" class="hover:text-strawberry-deep transition-colors">
+                            <a href="{{ url('/' . $fPage->slug) }}" wire:navigate class="hover:text-strawberry-deep transition-colors">
                                 {{ $fPage->title }}
                             </a>
                         </li>
@@ -376,6 +377,28 @@
         </div>
     </footer>
 
+    @livewireScriptConfig
     @stack('scripts')
+
+    {{-- Livewire Navigate Loading Indicator --}}
+    <style>
+        [x-cloak] { display: none !important; }
+        .navigate-loading-bar {
+            position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9999;
+            background: linear-gradient(90deg, #E91E72, #FF6B9D, #E91E72);
+            background-size: 200% 100%;
+            animation: loading-shimmer 1s linear infinite;
+            transition: opacity 0.2s;
+        }
+        @keyframes loading-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+    <div x-data="{ loading: false }"
+         x-on:livewire:navigate-start.window="loading = true"
+         x-on:livewire:navigate-end.window="loading = false">
+        <div x-show="loading" x-cloak class="navigate-loading-bar"></div>
+    </div>
 </body>
 </html>

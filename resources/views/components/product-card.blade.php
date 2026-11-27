@@ -20,7 +20,7 @@ $categoryName = is_object($product) && $product->collection ? $product->collecti
     {{-- Premium Showcase Card — Poster-style product images --}}
     <article {{ $attributes->merge(['class' => 'group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-blush/60 hover:border-strawberry-deep/30 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2']) }}>
         {{-- Image Container — full-bleed poster style --}}
-        <a href="{{ $href }}" class="relative block overflow-hidden">
+        <a href="{{ $href }}" wire:navigate class="relative block overflow-hidden">
             <div class="relative w-full aspect-[4/5] bg-blush overflow-hidden">
                 <x-product-image :src="$imageUrl" :alt="$name" aspect="4/5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
@@ -40,7 +40,7 @@ $categoryName = is_object($product) && $product->collection ? $product->collecti
 
         {{-- Product Info --}}
         <div class="flex-1 flex flex-col px-4 sm:px-5 pb-4 sm:pb-5 pt-3">
-            <a href="{{ $href }}" class="group-hover:text-strawberry-deep transition-colors">
+            <a href="{{ $href }}" wire:navigate class="group-hover:text-strawberry-deep transition-colors">
                 <h3 class="font-serif font-black text-sm sm:text-base text-cocoa leading-snug line-clamp-1">{{ $name }}</h3>
             </a>
 
@@ -58,7 +58,7 @@ $categoryName = is_object($product) && $product->collection ? $product->collecti
             {{-- Price & CTA --}}
             <div class="mt-auto pt-3 border-t border-blush/50 flex items-center justify-between gap-2">
                 <span class="px-3 py-1 rounded-full bg-blush/80 text-strawberry-deep font-black text-xs tracking-tight">{{ $formattedPrice }}</span>
-                <a href="{{ $href }}" class="group/btn inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-strawberry-deep text-white text-[10px] sm:text-xs font-bold shadow-sm hover:bg-strawberry-hover transition-colors">
+                <a href="{{ $href }}" wire:navigate class="group/btn inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-strawberry-deep text-white text-[10px] sm:text-xs font-bold shadow-sm hover:bg-strawberry-hover transition-colors">
                     <span>Pesan</span>
                     <svg class="w-3 h-3 transition-transform group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>
@@ -68,7 +68,7 @@ $categoryName = is_object($product) && $product->collection ? $product->collecti
 @else
     {{-- Standard Card --}}
     <article {{ $attributes->merge(['class' => 'group flex flex-col bg-white rounded-2xl overflow-hidden p-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-soft border border-blush/60']) }}>
-        <a href="{{ $href }}" class="block relative w-full overflow-hidden rounded-xl">
+        <a href="{{ $href }}" wire:navigate class="block relative w-full overflow-hidden rounded-xl">
             <x-product-image :src="$imageUrl" :alt="$name" aspect="4/5" />
             @if($isFreshBake)
                 <div class="absolute top-2.5 left-2.5 z-10">
@@ -78,7 +78,7 @@ $categoryName = is_object($product) && $product->collection ? $product->collecti
         </a>
 
         <div class="mt-3 flex flex-col flex-1 justify-between">
-            <a href="{{ $href }}" class="group-hover:text-strawberry-deep transition-colors">
+            <a href="{{ $href }}" wire:navigate class="group-hover:text-strawberry-deep transition-colors">
                 <h3 class="font-serif font-bold text-sm md:text-base text-cocoa leading-snug line-clamp-2">{{ $name }}</h3>
             </a>
             <div class="mt-2 flex items-center justify-between pt-1">

@@ -220,7 +220,7 @@
                 @if($products->isNotEmpty())
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
                         @foreach($products as $product)
-                            <a href="{{ route('product.show', $product->slug) }}"
+                            <a href="{{ route('product.show', $product->slug) }}" wire:navigate
                                class="group relative overflow-hidden rounded-2xl bg-blush shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5">
                                 <div class="relative w-full aspect-[4/5] overflow-hidden">
                                     <x-product-image :src="$product->image_url" :alt="$product->name" aspect="4/5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
