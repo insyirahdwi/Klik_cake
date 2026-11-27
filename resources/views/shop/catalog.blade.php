@@ -185,71 +185,57 @@
                 </form>
             </aside>
 
-            {{-- Main Products Grid Area (Screen 02) --}}
+            {{-- Main Products Grid Area --}}
             <main class="lg:col-span-9 space-y-6">
 
-                {{-- Header Bar: Product Count & Sort Dropdown (Screen 02) --}}
+                {{-- Header Bar --}}
                 <div class="flex items-center justify-between pb-3 border-b border-blush/80">
                     <p class="text-xs sm:text-sm font-bold text-cocoa-muted">
-                        <span class="text-cocoa font-black">{{ $products->total() }}</span> produk ditemukan
+                        <span class="text-cocoa font-black">6</span> produk unggulan
                     </p>
-
-                    {{-- Sort Dropdown --}}
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs text-cocoa-muted hidden sm:inline">Urutkan:</span>
-                        <div class="relative inline-block text-left">
-                            <select
-                                onchange="location = this.value;"
-                                class="appearance-none bg-white border border-blush-dark text-cocoa font-bold text-xs sm:text-sm rounded-full pl-4 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-strawberry-deep cursor-pointer shadow-sm"
-                            >
-                                <option value="{{ request()->fullUrlWithQuery(['sort' => 'terbaru']) }}" {{ $sort === 'terbaru' ? 'selected' : '' }}>Terbaru</option>
-                                <option value="{{ request()->fullUrlWithQuery(['sort' => 'terpopuler']) }}" {{ $sort === 'terpopuler' ? 'selected' : '' }}>Terpopuler</option>
-                                <option value="{{ request()->fullUrlWithQuery(['sort' => 'harga_asc']) }}" {{ $sort === 'harga_asc' ? 'selected' : '' }}>Harga Terendah</option>
-                                <option value="{{ request()->fullUrlWithQuery(['sort' => 'harga_desc']) }}" {{ $sort === 'harga_desc' ? 'selected' : '' }}>Harga Tertinggi</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-cocoa">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                {{-- Products Grid: 3 Kolom Desktop / 2 Kolom Mobile (Screen 02) --}}
-                @if($products->isNotEmpty())
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
-                        @foreach($products as $product)
-                            <x-product-card
-                                :product="$product"
-                                :href="route('product.show', $product->slug)"
-                            />
-                        @endforeach
-                    </div>
+                {{-- Products Grid: 6 Produk Poster --}}
+                @php
+                    $showcaseProducts = [
+                        ['image' => 'products/kacang-kribo.jpg', 'name' => 'Kacang Kribo', 'tagline' => 'Gurih dan Renyah'],
+                        ['image' => 'products/cheese-cake.jpg', 'name' => 'Cheese Cake', 'tagline' => 'Termanis untuk Harimu'],
+                        ['image' => 'products/floshroll.jpg', 'name' => 'Floshroll', 'tagline' => 'Gurihnya Melimpah, Lembutnya Bikin Nagih'],
+                        ['image' => 'products/roti-sosis.jpg', 'name' => 'Roti Sosis', 'tagline' => 'Gurih Kejunya, Juicy Sosisnya'],
+                        ['image' => 'products/donat-kukus.jpg', 'name' => 'Donat Kukus', 'tagline' => 'Sekali Gigit Langsung Lumer'],
+                        ['image' => 'products/brownies.jpg', 'name' => 'Brownies', 'tagline' => 'Manis, Gurih, dan Moist'],
+                    ];
+                @endphp
 
-                    {{-- Pagination (Screen 02: 1 2 3 Circular Pills) --}}
-                    <div class="pt-8 flex justify-center">
-                        {{ $products->links('shop.pagination') }}
-                    </div>
-                @else
-                    {{-- Empty State --}}
-                    <div class="bg-white rounded-3xl p-12 text-center border border-blush shadow-soft space-y-4">
-                        <div class="w-16 h-16 mx-auto rounded-full bg-blush flex items-center justify-center text-strawberry-deep">
-                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
+                    @foreach($showcaseProducts as $i => $item)
+                        <div class="group relative overflow-hidden rounded-2xl bg-blush shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                            <div class="relative w-full aspect-[4/5] overflow-hidden">
+                                <img src="{{ asset($item['image']) }}"
+                                     alt="{{ $item['name'] }}"
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                     loading="lazy" />
+
+                                {{-- Top badge --}}
+                                <div class="absolute top-3 left-3 z-10">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[9px] font-extrabold text-strawberry-deep uppercase tracking-wider shadow-sm">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-strawberry-deep"></span>
+                                        Fresh Bake
+                                    </span>
+                                </div>
+
+                                {{-- Bottom gradient overlay --}}
+                                <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+                                {{-- Product info overlay --}}
+                                <div class="absolute bottom-0 inset-x-0 p-4 z-10 text-white">
+                                    <h3 class="font-serif font-black text-base sm:text-lg leading-tight">{{ $item['name'] }}</h3>
+                                    <p class="text-[11px] sm:text-xs text-white/80 mt-0.5 font-medium">{{ $item['tagline'] }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="font-serif font-bold text-xl text-cocoa">Belum ada menu yang cocok</h3>
-                        <p class="text-sm text-cocoa-muted max-w-sm mx-auto">
-                            Coba ubah atau hilangkan beberapa filter untuk melihat menu roti dan kue lezat kami lainnya.
-                        </p>
-                        <div class="pt-2">
-                            <x-button as="a" href="{{ route('catalog.index') }}" variant="primary" size="sm">
-                                Lihat Semua Menu
-                            </x-button>
-                        </div>
-                    </div>
-                @endif
+                    @endforeach
+                </div>
 
             </main>
         </div>
